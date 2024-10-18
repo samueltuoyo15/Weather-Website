@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="author" content="tuoyo samuel, Weather Analysis" />
+<script src="https://kit.fontawesome.com/edec7f25e3.js" crossorigin="anonymous"></script>
+<title>Whether Analysis</title>
+  <style>
+    *{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Sans-serif;
+}
+
+body, html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    padding: 20px;
+    width: 100%;
+    font-weight: bolder;
+}
+
+footer{
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    padding: 20px;
+    width: 100%;
+ }
+    
+footer .tint i{
+    font-size: 30px;
+}
+
+footer #humidity, #wind-speed{
+    font-size: 30px;
+}
+
+footer #humidity{
+    margin-right: 50px;
+}
+
+footer .tint .p{
+    margin-left: 22px;
+    display: block;
+}
+
+footer .tint .p2{
+    margin-left: 35px;
+    display: block;
+}
+
+input[type="search"]{
+    border: none;
+    border-radius: 20px;
+    background-color: lightblue;
+    padding: 20px;
+    width: 250px;
+}
+
+.search-icon{
+    background-color: lightblue;
+    padding: 20px;border-radius: 20px;
+}
+
+.container {
+    text-align: center;
+    font-weight: bold;
+}
+
+.container  h1{
+    font-size: 70px;
+    font-weight: bolder;
+}
+
+.container  p{
+    font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+   <header class="header">
+     <div class="search-bar">
+          <input type="search" placeholder="Nigeria" id="search-fetch-input">
+     </div>
+     <div class="search-icon" id="search-fetch-button">
+          <i class="fas fa-search"></i>
+          </div>
+   </header>
+    <div class="container">
+        <img src="img/cloud.png" width="250px" alt="" id="weather-icon">
+        <div>
+            <h1 id="weather-temp">28°C</h1>
+            <p id="weather-description">Scattering Clouds</p>
+      </div>
+    </div>
+  <footer>
+        <div class="tint">
+            <i class="fas fa-tint"></i> <span id="humidity">51%</span> <span class="p">Humidity</span>
+        </div>
+       <div class="tint tint2">
+            <i class="fas fa-water"></i> <span id="wind-speed">4.36Km/H</span> <span class="p2">Wind Speed</span>
+        </div>
+  </footer>
+  <script src="app.js"></script>
+   </body>
+</html>
