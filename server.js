@@ -29,7 +29,7 @@ const server = http.createServer(async (req, res) => {
         return
       }
 
-       const apiUrl = process.env.END_POINT
+       const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
 
       try {
         const weatherResponse = await fetch(apiUrl)
