@@ -1,66 +1,75 @@
-import http from 'http';
-import url from 'url';
-import path from 'path';
-import fs from 'fs/promises';
-import fetch from 'node-fetch'; // Import node-fetch for making HTTP requests
-import dotenv from 'dotenv';
-dotenv.config();
+import http from 'http'
+import url from 'url'
+import path from 'path'
+import fs from 'fs/promises'
+import fetch from 'node-fetch'
 
-// Fetch API Key from environment variables
-const API_KEY = process.env.API_KEY;
-console.log(API_KEY)
+const API_KEY = '1e319f8568a14e22879191156241810' 
 
-// MIME type mapping
 const mimeTypes = {
-    '.html': 'text/html',
-    '.css': 'text/css',
-    '.js': 'application/javascript',
-    '.png': 'image/png'    
-};
+  '.html': 'text/html',
+  '.css': 'text/css',
+  '.js': 'application/javascript',
+  '.png': 'image/png'
+}
 
-const filename = url.fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
-const publicDir = path.join(dirname, 'public');
+const filename = url.fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
+const publicDir = path.join(dirname, 'public')
 
-const app = http.createServer(async (req, res) => {
-    try {
-        // Handle /weather route
-        if (req.url.startsWith('/weather')) {
-            const city = req.url.split('?city=')[1]
-            const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`;
-            const weatherResponse = await fetch(apiUrl);
-            const weatherData = await weatherResponse.json();
+const server = http.createServer(async (req, res) => {
+  try {
+    // Handle weather API request from the client-side
+    if (req.url.startsWith('/weather')) {
+      const parsedUrl = url.parse(req.url, true)
+      const city = parsedUrl.query.city
 
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(weatherData));
-            return; // Exit to prevent serving static files for this route
+      if (!city) {
+        res.writeHead(400, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ error: 'City parameter is required' }))
+        return
+      }
+
+      const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
+
+      try {
+        const weatherResponse = await fetch(apiUrl)
+
+        if (!weatherResponse.ok) {
+          throw new Error('Failed to fetch weather data')
         }
 
-        // Serve static files
-        let filepath = path.join(publicDir, req.url === '/' ? 'index.html' : req.url);
-        
-        // Check if the file exists
-        const fileStat = await fs.stat(filepath);
-        
-        if (fileStat.isFile()) {
-            // Determine the MIME type
-            const extname = path.extname(filepath);
-            const mimeType = mimeTypes[extname] || 'application/octet-stream';
-            res.writeHead(200, { 'Content-Type': mimeType });
-            const data = await fs.readFile(filepath);
-            res.end(data);
-        } else {
-            // If it's not a file, respond with 404
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.end('Not Found');
-        }
-    } catch (err) {
-        // Handle errors (e.g., file not found)
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('Internal Server Error');
+        const weatherData = await weatherResponse.json()
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify(weatherData))
+      } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ error: error.message }))
+      }
+
+      return
     }
-});
 
-app.listen(3030, () => {
-    console.log('App is running on http://localhost:3030');
-});
+    // Serve static files (HTML, CSS, JS)
+    let filepath = path.join(publicDir, req.url === '/' ? 'index.html' : req.url)
+    const fileStat = await fs.stat(filepath)
+
+    if (fileStat.isFile()) {
+      const extname = path.extname(filepath)
+      const mimeType = mimeTypes[extname] || 'application/octet-stream'
+      res.writeHead(200, { 'Content-Type': mimeType })
+      const data = await fs.readFile(filepath)
+      res.end(data)
+    } else {
+      res.writeHead(404, { 'Content-Type': 'text/plain' })
+      res.end('Not Found')
+    }
+  } catch (err) {
+    res.writeHead(500, { 'Content-Type': 'text/plain' })
+    res.end('Internal Server Error')
+  }
+})
+
+server.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 3000}`)
+})
