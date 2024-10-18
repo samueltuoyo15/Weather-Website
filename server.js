@@ -4,7 +4,7 @@ import path from 'path'
 import fs from 'fs/promises'
 import fetch from 'node-fetch'
 
-const API_KEY = '1e319f8568a14e22879191156241810' 
+const API_KEY = process.env.API_KEY
 
 const mimeTypes = {
   '.html': 'text/html',
@@ -19,7 +19,6 @@ const publicDir = path.join(dirname, 'public')
 
 const server = http.createServer(async (req, res) => {
   try {
-    // Handle weather API request from the client-side
     if (req.url.startsWith('/weather')) {
       const parsedUrl = url.parse(req.url, true)
       const city = parsedUrl.query.city
@@ -30,7 +29,7 @@ const server = http.createServer(async (req, res) => {
         return
       }
 
-      const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
+      const apiUrl = process.env.END_POINT
 
       try {
         const weatherResponse = await fetch(apiUrl)
@@ -50,7 +49,6 @@ const server = http.createServer(async (req, res) => {
       return
     }
 
-    // Serve static files (HTML, CSS, JS)
     let filepath = path.join(publicDir, req.url === '/' ? 'index.html' : req.url)
     const fileStat = await fs.stat(filepath)
 
