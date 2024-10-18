@@ -8,6 +8,10 @@ const WindSpeed = document.getElementById('wind-speed');
 
 function fetchWeather() {
   const city = searchInput.value.trim();
+  if(!city){
+    alert('Hey Champ \nSeems you gotta type in a city, street or country')
+  }
+  else{
   fetch(`/weather?city=${city}`)
     .then(response => response.json())
     .then(data => {
@@ -47,10 +51,13 @@ function fetchWeather() {
 
   searchInput.value = '';
  }
+}
 searchInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         fetchWeather();
     }
-});
+})
+;
 
 searchBtn.addEventListener('click', fetchWeather);
+        
