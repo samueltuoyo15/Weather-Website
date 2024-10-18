@@ -50,6 +50,6 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
+server.listen(process.env.PORT, () => {
  console.log('Server is Running')
 }
