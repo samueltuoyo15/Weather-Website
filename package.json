@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/samueltuoyo15/Weather-Website/issues"
   },
-  "homepage": "https://github.com/samueltuoyo15/Weather-Website#readme",
+  "homepage": "https://github.com/samueltuoyo15/Weather-Website",
   "dependencies": {
     "axios": "^1.8.2",
     "dotenv": "^16.4.7",
