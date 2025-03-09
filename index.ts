@@ -4,14 +4,12 @@ const axios = require("axios")
 const dotenv = require("dotenv").config()
 const API_KEY = process.env.API_KEY
 
-const __dirname = path.resolve()
-const publicDir = path.join(__dirname, "public")
 
 const app = express()
 
 app.use(express.urlencoded({ extended: true }))
 
-app.use(express.static(publicDir))
+app.use(express.static(path.join(__dirname, "public")))
 
 app.get("/weather", async (req, res) => {
   try {

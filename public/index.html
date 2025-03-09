@@ -11,7 +11,8 @@
     *{
     margin: 0;
     box-sizing: border-box;
-    font-family: "Geist";
+    user-select: none;
+    font-family: 'Geist', sans-serif;
 }
 
 body, html{
@@ -31,7 +32,6 @@ body{
     top: 0;
     padding: 20px;
     width: 100%;
-    font-weight: bolder;
 }
 
 footer{
@@ -54,17 +54,16 @@ footer #humidity, #wind-speed{
 footer #humidity{
     margin-right: 50px;
 }
-
-footer .tint .p{
-    margin-left: 22px;
-    display: block;
+footer .tint{
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
 }
-
-footer .tint .p2{
-    margin-left: 35px;
-    display: block;
+footer .tint div{
+  margin-left: 6px;
 }
-
 input[type="search"]{
     border: none;
     border-radius: 20px;
@@ -75,17 +74,16 @@ input[type="search"]{
 
 .search-icon{
     background-color: lightblue;
-    padding: 20px;border-radius: 20px;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 .container {
     text-align: center;
-    font-weight: bold;
 }
 
 .container  h1{
     font-size: 70px;
-    font-weight: bolder;
 }
 
 .container  p{
@@ -111,10 +109,10 @@ input[type="search"]{
     </div>
   <footer>
         <div class="tint">
-            <i class="fas fa-tint"></i> <span id="humidity">51%</span> <span class="p">Humidity</span>
+            <i class="fas fa-tint"></i> <div><span id="humidity">51%</span> <span>Humidity</span></div>
         </div>
        <div class="tint tint2">
-            <i class="fas fa-water"></i> <span id="wind-speed">4.36Km/H</span> <span class="p2">Wind Speed</span>
+            <i class="fas fa-water"></i> <div><span id="wind-speed">4.36Km/H</span> <span>Wind Speed</span></div>
         </div>
   </footer>
   <script src="app.js"></script>

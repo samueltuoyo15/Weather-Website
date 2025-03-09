@@ -39,7 +39,7 @@ function fetchWeather() {
     })
     .catch(error => {
         console.error(error);
-        weatherDesc.innerHTML = 'Syntax Error or Typo Seems theres no City/County that matches your search';
+        weatherDesc.innerHTML = 'Typo or Invalid Location Seems theres no Street, City, State or County that matches your search';
         weatherIcon.src = '';
         weatherTemp.innerHTML = '';
        WeatherHumidity.innerHTML = '';
