@@ -12,9 +12,7 @@ function fetchWeather() {
     alert('Hey Champ \nSeems you gotta type in a city, street or country')
   }
   else{
-  fetch(`/weather?city=${city}`)
-    .then(response => response.json())
-    .then(data => {
+  fetch(`/weather?city=${city}`).then(response => response.json()).then(data => {
       const temp = data.current.temp_c;
       const description = data.current.condition.text;
       const humidity = data.current.humidity;
